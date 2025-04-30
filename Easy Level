@@ -1,0 +1,32 @@
+import java.sql.*;
+public class EmployeeFetcher {
+    public static void main(String[] args) {
+        // Database credentials
+        String url = "jdbc:mysql://localhost:3306/employeefetcher"; // Replace with your database name
+        String user = "root"; // Replace with your MySQL username
+        String password = "Khush.123"; // Replace with your MySQL password
+
+        // SQL query to retrieve all records from Employee table
+        String query = "SELECT EmpID, Name, Salary FROM Employee";
+
+        // JDBC Connection
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            System.out.println("EmpID\tName\tSalary");
+            System.out.println("--------------------------------");
+
+            // Loop through the result set and display records
+            while (rs.next()) {
+                int empID = rs.getInt("EmpID");
+                String name = rs.getString("Name");
+                double salary = rs.getDouble("Salary");
+
+                System.out.println(empID + "\t" + name + "\t" + salary);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
